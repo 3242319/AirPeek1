@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Peek</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>🌤 Air Peek</h1>
+    <p>See the Atmosphere, Not the People</p>
+</header>
+
+<nav>
+    <button class="tab active">Trend</button>
+    <button class="tab">Relatable</button>
+    <button class="tab">Opinion</button>
+</nav>
+
+<main>
+
+<div class="card">
+    <div class="category trend">TREND</div>
+
+    <h2>Do people still use "rizz"?</h2>
+
+    <div class="vote-buttons">
+        <button onclick="vote('IN')">IN</button>
+        <button onclick="vote('MID')">MID</button>
+        <button onclick="vote('OUT')">OUT</button>
+    </div>
+
+    <div id="results" class="hidden">
+        <h3>Atmosphere Revealed</h3>
+
+        <div class="result">
+            <span>IN</span>
+            <div class="bar in" style="width:60%">60%</div>
+        </div>
+
+        <div class="result">
+            <span>MID</span>
+            <div class="bar mid" style="width:25%">25%</div>
+        </div>
+
+        <div class="result">
+            <span>OUT</span>
+            <div class="bar out" style="width:15%">15%</div>
+        </div>
+    </div>
+
+</div>
+
+<section class="trending">
+    <h2>🔥 Trending Atmospheres</h2>
+
+    <ul>
+        <li>Summer Festivals</li>
+        <li>Matcha Boom</li>
+        <li>AI Tools</li>
+        <li>Retro Fashion</li>
+    </ul>
+</section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
