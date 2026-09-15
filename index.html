@@ -124,6 +124,11 @@
 
       width: 100%;
       max-width: 500px;
+      max-height: calc(100dvh - 110px);
+
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: auto;
 
       padding: 30px 20px;
 
@@ -133,6 +138,17 @@
         0 4px 15px rgba(0, 0, 0, 0.08);
 
       text-align: center;
+
+      scrollbar-width: thin;
+    }
+
+    .question-card::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .question-card::-webkit-scrollbar-thumb {
+      background: #c8e2ea;
+      border-radius: 10px;
     }
 
 
