@@ -21,7 +21,7 @@
 
     body {
       font-family: sans-serif;
-      background: #edf9fd;
+      background: #dff3fa;
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
       overscroll-behavior: none;
@@ -285,7 +285,7 @@
 
       font-size: 13px;
 
-      color: #58717d;
+      color: #496674;
 
       z-index: 40;
     }
@@ -337,7 +337,7 @@
 
       inset: 0;
 
-      background: #edf9fd;
+      background: #dff3fa;
 
       z-index: 100;
 
@@ -434,11 +434,11 @@
 
 
     .category-button.selected {
-      background: #8fccef;
+      background: #f2dca8;
 
-      color: white;
+      color: #536873;
 
-      border-color: #8fccef;
+      border-color: #222;
     }
 
 
@@ -526,7 +526,7 @@
 
 
     .choice-inputs span {
-      color: #58717d;
+      color: #888;
 
       font-size: 18px;
     }
@@ -535,7 +535,7 @@
     .choice-counter {
       font-size: 12px;
 
-      color: #58717d;
+      color: #888;
 
       text-align: center;
 
@@ -558,9 +558,9 @@
 
       border-radius: 14px;
 
-      background: #8fccef;
+      background: #f2dca8;
 
-      color: white;
+      color: #ffffff;
 
       font-size: 16px;
 
@@ -659,30 +659,107 @@
   </style>
 </head>
 
+
 <body>
 
+
+  <!-- =========================
+       カテゴリメニュー
+  ========================= -->
+
   <div class="category-menu">
-    <button class="category-tab selected" onclick="filterCategory('all')">すべて</button>
-    <button class="category-tab" onclick="filterCategory('trend')">流行・話題</button>
-    <button class="category-tab" onclick="filterCategory('relatable')">共感・あるある</button>
-    <button class="category-tab" onclick="filterCategory('opinion')">意見・価値観</button>
+
+    <button
+      class="category-tab selected"
+      data-category="all"
+      onclick="changeCategory('all')"
+    >
+      すべて
+    </button>
+
+    <button
+      class="category-tab"
+      data-category="流行・話題"
+      onclick="changeCategory('流行・話題')"
+    >
+      流行・話題
+    </button>
+
+    <button
+      class="category-tab"
+      data-category="共感・あるある"
+      onclick="changeCategory('共感・あるある')"
+    >
+      共感・あるある
+    </button>
+
+    <button
+      class="category-tab"
+      data-category="意見・価値観"
+      onclick="changeCategory('意見・価値観')"
+    >
+      意見・価値観
+    </button>
+
   </div>
 
-  <div class="counter" id="counter">1 / 15</div>
 
-  <main class="feed" id="feed">
-  </main>
+  <!-- =========================
+       フィード
+  ========================= -->
 
-  <button class="open-post-button" onclick="openPostScreen()">＋</button>
+  <div
+    class="feed"
+    id="feed"
+  ></div>
 
-  <div class="post-screen" id="postScreen">
+
+  <!-- =========================
+       カウンター
+  ========================= -->
+
+  <div
+    class="counter"
+    id="counter"
+  >
+    1 / 15
+  </div>
+
+
+  <!-- =========================
+       投稿ボタン
+  ========================= -->
+
+  <button
+    class="open-post-button"
+    onclick="openPostScreen()"
+  >
+    ＋
+  </button>
+
+
+  <!-- =========================
+       投稿画面
+  ========================= -->
+
+  <div
+    class="post-screen"
+    id="postScreen"
+  >
 
     <div class="post-form">
 
       <div class="post-header">
-        <h2>投稿する</h2>
 
-        <button class="close-button" onclick="closePostScreen()">×</button>
+        <h2>新しい投稿</h2>
+
+        <button
+          class="close-button"
+          onclick="closePostScreen()"
+        >
+          ×
+        </button>
+
       </div>
 
 
@@ -690,26 +767,30 @@
         カテゴリ
       </div>
 
+
       <div class="category-buttons">
 
         <button
           class="category-button selected"
-          data-category="trend"
-          onclick="selectCategory(this)">
+          data-category="流行・話題"
+          onclick="selectCategory(this)"
+        >
           流行・話題
         </button>
 
         <button
           class="category-button"
-          data-category="relatable"
-          onclick="selectCategory(this)">
+          data-category="共感・あるある"
+          onclick="selectCategory(this)"
+        >
           共感・あるある
         </button>
 
         <button
           class="category-button"
-          data-category="opinion"
-          onclick="selectCategory(this)">
+          data-category="意見・価値観"
+          onclick="selectCategory(this)"
+        >
           意見・価値観
         </button>
 
@@ -720,40 +801,50 @@
         投稿内容
       </div>
 
+
       <textarea
         id="postText"
-        maxlength="100"
-        placeholder="今、何が話題になってる？"></textarea>
+        placeholder="今、何が話題になってる？"
+      ></textarea>
 
 
       <div class="form-title">
         選択肢
       </div>
 
+
       <div class="choice-inputs">
 
         <input
-          id="choiceA"
+          id="leftChoice"
           type="text"
           maxlength="10"
-          placeholder="選択肢A">
+          placeholder="左の選択肢"
+          oninput="updateChoiceCount('leftChoice', 'leftChoiceCount')"
+        >
 
-        <span>↔</span>
+        <span>○</span>
 
         <input
-          id="choiceB"
+          id="rightChoice"
           type="text"
           maxlength="10"
-          placeholder="選択肢B">
+          placeholder="右の選択肢"
+          oninput="updateChoiceCount('rightChoice', 'rightChoiceCount')"
+        >
 
       </div>
 
-      <div class="choice-counter" id="choiceCounter">
-        0 / 10
+      <div class="choice-counter">
+        左：<span id="leftChoiceCount">0</span> / 10文字
+       　右：<span id="rightChoiceCount">0</span> / 10文字
       </div>
 
 
-      <button class="submit-button" onclick="createPost()">
+      <button
+        class="submit-button"
+        onclick="createPost()"
+      >
         投稿する
       </button>
 
@@ -771,141 +862,157 @@
     const defaultPosts = [
 
       {
-        id: 1,
-        category: "trend",
-        text: "最近、TikTokでよく見る動画ってある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "流行・話題",
+        text: "この曲、みんな一回は聞いたことある？",
+        left: "聞いたことある",
+        right: "知らない"
       },
 
       {
-        id: 2,
-        category: "relatable",
-        text: "寝る前にスマホを触る？",
-        choiceA: "触る",
-        choiceB: "触らない"
+        category: "流行・話題",
+        text: "このミーム、まだ現役だと思う？",
+        left: "まだ現役",
+        right: "もう古い"
       },
 
       {
-        id: 3,
-        category: "opinion",
-        text: "旅行は予定を細かく決めたい？",
-        choiceA: "決めたい",
-        choiceB: "決めない"
+        category: "流行・話題",
+        text: "このドラマ、周りで話題になってる？",
+        left: "話題になってる",
+        right: "あまり聞かない"
       },
 
       {
-        id: 4,
-        category: "trend",
-        text: "最近、話題になっているものをチェックしてる？",
-        choiceA: "チェックする",
-        choiceB: "しない"
+        category: "流行・話題",
+        text: "最近この飲み物、よく見る気しない？",
+        left: "よく見る",
+        right: "そうでもない"
       },
 
       {
-        id: 5,
-        category: "relatable",
-        text: "授業中、眠くなったことある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "流行・話題",
+        text: "あのカップル最近別れたんだってー！みんな知ってた？",
+        left: "知ってた",
+        right: "知らなかった"
       },
 
       {
-        id: 6,
-        category: "opinion",
-        text: "朝と夜なら、どっちのほうが好き？",
-        choiceA: "朝",
-        choiceB: "夜"
+        category: "共感・あるある",
+        text: "寝る前に「あと1本だけ動画見る」ってやる？",
+        left: "よくやる",
+        right: "ほぼない"
       },
 
       {
-        id: 7,
-        category: "trend",
-        text: "最近よく聞く曲、何かある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "共感・あるある",
+        text: "買い物で「カゴに入れたけど戻す」ってやる？",
+        left: "よくある",
+        right: "ほぼない"
       },
 
       {
-        id: 8,
-        category: "relatable",
-        text: "休日、気づいたら一日終わってたことある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "共感・あるある",
+        text: "予定の30分前に急にやる気出る。",
+        left: "わかる",
+        right: "そうでもない"
       },
 
       {
-        id: 9,
-        category: "opinion",
-        text: "友達との予定は、早めに決めたい？",
-        choiceA: "早めに決めたい",
-        choiceB: "直前でいい"
+        category: "共感・あるある",
+        text: "スマホの通知、来た瞬間に消しがち。",
+        left: "わかる",
+        right: "そうでもない"
       },
 
       {
-        id: 10,
-        category: "trend",
-        text: "最近、SNSで新しく知ったものがある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "共感・あるある",
+        text: "冷蔵庫開けた瞬間、何しに来たか忘れる。",
+        left: "わかる",
+        right: "そうでもない"
       },
 
       {
-        id: 11,
-        category: "relatable",
-        text: "朝、二度寝してしまうことある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "意見・価値観",
+        text: "朝より夜のほうが集中できる？",
+        left: "夜",
+        right: "朝"
       },
 
       {
-        id: 12,
-        category: "opinion",
-        text: "好きなものは人におすすめしたい？",
-        choiceA: "したい",
-        choiceB: "しない"
+        category: "意見・価値観",
+        text: "旅行は「計画派」と「ノープラン派」どっち？",
+        left: "ノープラン派",
+        right: "計画派"
       },
 
       {
-        id: 13,
-        category: "trend",
-        text: "最近、周りでよく聞く言葉がある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "意見・価値観",
+        text: "一人の時間は必要だと思う？",
+        left: "必要",
+        right: "そこまで"
       },
 
       {
-        id: 14,
-        category: "relatable",
-        text: "動画を見始めたら止まらなくなったことある？",
-        choiceA: "ある",
-        choiceB: "ない"
+        category: "意見・価値観",
+        text: "映画は「一人で観る」のと「誰かと観る」どっちが好き？",
+        left: "一人",
+        right: "誰かと"
       },
 
       {
-        id: 15,
-        category: "opinion",
-        text: "予定のない休日って好き？",
-        choiceA: "好き",
-        choiceB: "苦手"
+        category: "意見・価値観",
+        text: "休日は「家で過ごす」のと「外に出る」のどっちが好き？",
+        left: "家",
+        right: "外"
       }
 
     ];
 
 
     /* =========================
-       データ
+       ユーザー投稿
     ========================= */
 
-    let posts =
-      JSON.parse(localStorage.getItem("airPeekPosts")) ||
-      defaultPosts;
+    let userPosts =
+      JSON.parse(
+        localStorage.getItem("airPeekUserPosts")
+      ) || [];
 
-    let votes =
-      JSON.parse(localStorage.getItem("airPeekVotes")) ||
-      {};
+
+    let posts = [
+      ...userPosts,
+      ...defaultPosts
+    ];
+
+
+    /* =========================
+       投票データ
+    ========================= */
+
+    let allVotes =
+      JSON.parse(
+        localStorage.getItem("airPeekAllVotes")
+      ) || {};
+
+
+    let myVotes =
+      JSON.parse(
+        localStorage.getItem("airPeekMyVotes")
+      ) || {};
+
+
+    /* =========================
+       現在のカテゴリ
+    ========================= */
 
     let currentCategory = "all";
+
+
+    /* =========================
+       表示中の投稿
+    ========================= */
+
+    let visiblePosts = [];
 
 
     /* =========================
@@ -919,111 +1026,60 @@
 
       feed.innerHTML = "";
 
-      const filteredPosts =
-        posts.filter(post => {
 
-          if (currentCategory === "all") {
-            return true;
-          }
+      /*
 
-          return post.category === currentCategory;
+        カテゴリで絞り込む
 
-        });
+      */
 
+      if (currentCategory === "all") {
 
-      if (filteredPosts.length === 0) {
+        visiblePosts =
+          posts.map(
+            (post, index) => ({
+              post: post,
+              originalIndex: index
+            })
+          );
 
-        feed.innerHTML = `
-          <div class="empty-message">
-            まだ投稿がありません。
-          </div>
-        `;
+      } else {
 
-        document.getElementById("counter").textContent =
-          "0 / 0";
+        visiblePosts =
+          posts
+            .map(
+              (post, index) => ({
+                post: post,
+                originalIndex: index
+              })
+            )
+            .filter(
+              item =>
+                item.post.category === currentCategory
+            );
 
-        return;
       }
 
 
-      filteredPosts.forEach((post, index) => {
+      /*
 
-        const postElement =
-          document.createElement("section");
+        投稿がない場合
 
-        postElement.className = "post";
+      */
 
-        postElement.innerHTML = `
+      if (visiblePosts.length === 0) {
 
-          <div class="question-card">
+        feed.innerHTML = `
 
-            <div class="category">
-              ${getCategoryName(post.category)}
-            </div>
+          <div class="empty-message">
 
-            <div class="question">
-              ${escapeHtml(post.text)}
-            </div>
+            <div>
 
-            <div class="choices">
+              <h2>まだ投稿がありません</h2>
 
-              <div class="choice">
-
-                <div class="choice-label">
-                  ${escapeHtml(post.choiceA)}
-                </div>
-
-                <div
-                  class="percentage"
-                  id="percentage-${post.id}-a">
-                </div>
-
-                <button
-                  class="vote-button"
-                  id="vote-${post.id}-a"
-                  onclick="vote(${post.id}, 'a')">
-                </button>
-
-              </div>
-
-
-              <div class="choice">
-
-                <div class="choice-label">
-                </div>
-
-                <div
-                  class="percentage"
-                  id="percentage-${post.id}-neutral">
-                </div>
-
-                <button
-                  class="vote-button neutral"
-                  id="vote-${post.id}-neutral"
-                  onclick="vote(${post.id}, 'neutral')">
-                </button>
-
-              </div>
-
-
-              <div class="choice">
-
-                <div class="choice-label">
-                  ${escapeHtml(post.choiceB)}
-                </div>
-
-                <div
-                  class="percentage"
-                  id="percentage-${post.id}-b">
-                </div>
-
-                <button
-                  class="vote-button"
-                  id="vote-${post.id}-b"
-                  onclick="vote(${post.id}, 'b')">
-                </button>
-
-              </div>
+              <p>
+                このカテゴリに投稿してみよう。
+              </p>
 
             </div>
 
@@ -1031,11 +1087,157 @@
 
         `;
 
-        feed.appendChild(postElement);
+        updateCounter();
 
-        updateVoteDisplay(post);
+        return;
 
-      });
+      }
+
+
+      /*
+
+        投稿を1つずつ作る
+
+      */
+
+      visiblePosts.forEach(
+        (item, visibleIndex) => {
+
+          const post =
+            item.post;
+
+          const originalIndex =
+            item.originalIndex;
+
+
+          /*
+
+            投票データがなければ作る
+
+          */
+
+          if (!allVotes[originalIndex]) {
+
+            allVotes[originalIndex] = {
+
+              left: 0,
+              center: 0,
+              right: 0
+
+            };
+
+          }
+
+
+          const section =
+            document.createElement("section");
+
+          section.className = "post";
+
+
+          section.innerHTML = `
+
+            <div class="question-card">
+
+              <div class="category">
+                ${post.category}
+              </div>
+
+              <div class="question">
+                ${post.text}
+              </div>
+
+              <div class="choices">
+
+                <div class="choice">
+
+                  <div class="choice-label">
+                    ${post.left}
+                  </div>
+
+                  <div
+                    class="percentage"
+                    id="percent-${originalIndex}-left"
+                  ></div>
+
+                  <button
+                    class="vote-button"
+                    onclick="vote(
+                      ${originalIndex},
+                      'left'
+                    )"
+                  ></button>
+
+                </div>
+
+
+                <div class="choice">
+
+                  <div class="choice-label">
+                    &nbsp;
+                  </div>
+
+                  <div
+                    class="percentage"
+                    id="percent-${originalIndex}-center"
+                  ></div>
+
+                  <button
+                    class="vote-button neutral"
+                    onclick="vote(
+                      ${originalIndex},
+                      'center'
+                    )"
+                  ></button>
+
+                </div>
+
+
+                <div class="choice">
+
+                  <div class="choice-label">
+                    ${post.right}
+                  </div>
+
+                  <div
+                    class="percentage"
+                    id="percent-${originalIndex}-right"
+                  ></div>
+
+                  <button
+                    class="vote-button"
+                    onclick="vote(
+                      ${originalIndex},
+                      'right'
+                    )"
+                  ></button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          feed.appendChild(section);
+
+
+          /*
+
+            投票済みなら結果を表示
+
+          */
+
+          if (myVotes[originalIndex]) {
+
+            showResult(originalIndex);
+
+          }
+
+        }
+      );
 
 
       updateCounter();
@@ -1044,241 +1246,227 @@
 
 
     /* =========================
-       カテゴリ名
-    ========================= */
-
-    function getCategoryName(category) {
-
-      if (category === "trend") {
-        return "流行・話題";
-      }
-
-      if (category === "relatable") {
-        return "共感・あるある";
-      }
-
-      if (category === "opinion") {
-        return "意見・価値観";
-      }
-
-      return "";
-
-    }
-
-
-    /* =========================
-       HTMLエスケープ
-    ========================= */
-
-    function escapeHtml(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent = text;
-
-      return div.innerHTML;
-
-    }
-
-
-    /* =========================
        投票
     ========================= */
 
-    function vote(postId, choice) {
+    function vote(
+      postIndex,
+      choice
+    ) {
 
-      if (votes[postId]) {
+      if (myVotes[postIndex]) {
         return;
       }
 
-      votes[postId] = choice;
+
+      allVotes[postIndex][choice]++;
+
+
+      myVotes[postIndex] =
+        choice;
+
 
       localStorage.setItem(
-        "airPeekVotes",
-        JSON.stringify(votes)
+        "airPeekAllVotes",
+        JSON.stringify(allVotes)
       );
 
-      updateVoteDisplay(
-        posts.find(post => post.id === postId)
+
+      localStorage.setItem(
+        "airPeekMyVotes",
+        JSON.stringify(myVotes)
       );
+
+
+      showResult(postIndex);
 
     }
 
 
     /* =========================
-       投票結果表示
+       結果表示
     ========================= */
 
-    function updateVoteDisplay(post) {
+    function showResult(
+      postIndex
+    ) {
 
-      if (!post) {
+      const votes =
+        allVotes[postIndex];
+
+
+      if (!votes) {
         return;
       }
-
-
-      const voteData =
-        getVoteData(post);
 
 
       const total =
-        voteData.a +
-        voteData.neutral +
-        voteData.b;
+        votes.left +
+        votes.center +
+        votes.right;
 
 
-      const percentA =
-        total === 0
-          ? 0
-          : Math.round(
-              voteData.a / total * 100
-            );
-
-
-      const percentNeutral =
-        total === 0
-          ? 0
-          : Math.round(
-              voteData.neutral / total * 100
-            );
-
-
-      const percentB =
-        total === 0
-          ? 0
-          : Math.round(
-              voteData.b / total * 100
-            );
-
-
-      const percentageA =
-        document.getElementById(
-          `percentage-${post.id}-a`
-        );
-
-      const percentageNeutral =
-        document.getElementById(
-          `percentage-${post.id}-neutral`
-        );
-
-      const percentageB =
-        document.getElementById(
-          `percentage-${post.id}-b`
-        );
-
-
-      if (!percentageA) {
+      if (total === 0) {
         return;
       }
 
 
-      if (votes[post.id]) {
-
-        percentageA.textContent =
-          `${percentA}%`;
-
-        percentageNeutral.textContent =
-          `${percentNeutral}%`;
-
-        percentageB.textContent =
-          `${percentB}%`;
-
-      } else {
-
-        percentageA.textContent = "";
-
-        percentageNeutral.textContent = "";
-
-        percentageB.textContent = "";
-
-      }
-
-
-      const buttonA =
-        document.getElementById(
-          `vote-${post.id}-a`
-        );
-
-      const buttonNeutral =
-        document.getElementById(
-          `vote-${post.id}-neutral`
-        );
-
-      const buttonB =
-        document.getElementById(
-          `vote-${post.id}-b`
+      const leftPercent =
+        Math.round(
+          (votes.left / total) * 100
         );
 
 
-      if (votes[post.id]) {
-
-        buttonA.disabled = true;
-
-        buttonNeutral.disabled = true;
-
-        buttonB.disabled = true;
+      const centerPercent =
+        Math.round(
+          (votes.center / total) * 100
+        );
 
 
-        if (votes[post.id] === "a") {
-          buttonA.classList.add("selected");
-        }
-
-        if (votes[post.id] === "neutral") {
-          buttonNeutral.classList.add("selected");
-        }
-
-        if (votes[post.id] === "b") {
-          buttonB.classList.add("selected");
-        }
-
-      }
-
-    }
+      const rightPercent =
+        100 -
+        leftPercent -
+        centerPercent;
 
 
-    /* =========================
-       投票データ
-    ========================= */
+      const leftElement =
+        document.getElementById(
+          `percent-${postIndex}-left`
+        );
 
-    function getVoteData(post) {
 
-      const saved =
-        JSON.parse(
-          localStorage.getItem(
-            `airPeekVoteData-${post.id}`
-          )
-        ) || {
-          a: 0,
-          neutral: 0,
-          b: 0
-        };
+      const centerElement =
+        document.getElementById(
+          `percent-${postIndex}-center`
+        );
+
+
+      const rightElement =
+        document.getElementById(
+          `percent-${postIndex}-right`
+        );
 
 
       if (
-        saved.a === 0 &&
-        saved.neutral === 0 &&
-        saved.b === 0 &&
-        votes[post.id]
+        !leftElement ||
+        !centerElement ||
+        !rightElement
       ) {
 
-        saved[votes[post.id]] = 1;
+        return;
 
       }
 
 
-      return saved;
+      leftElement.textContent =
+        leftPercent + "%";
+
+
+      centerElement.textContent =
+        centerPercent + "%";
+
+
+      rightElement.textContent =
+        rightPercent + "%";
+
+
+      /*
+
+        現在表示されている投稿から
+        対象の投稿を探す
+
+      */
+
+      const visibleIndex =
+        visiblePosts.findIndex(
+          item =>
+            item.originalIndex === postIndex
+        );
+
+
+      if (visibleIndex === -1) {
+        return;
+      }
+
+
+      const postElement =
+        document.querySelectorAll(
+          ".post"
+        )[visibleIndex];
+
+
+      if (!postElement) {
+        return;
+      }
+
+
+      const buttons =
+        postElement.querySelectorAll(
+          ".vote-button"
+        );
+
+
+      const myChoice =
+        myVotes[postIndex];
+
+
+      if (myChoice === "left") {
+
+        buttons[0]
+          .classList
+          .add("selected");
+
+      }
+
+
+      if (myChoice === "center") {
+
+        buttons[1]
+          .classList
+          .add("selected");
+
+      }
+
+
+      if (myChoice === "right") {
+
+        buttons[2]
+          .classList
+          .add("selected");
+
+      }
+
+
+      if (myChoice) {
+
+        buttons.forEach(
+          button => {
+            button.disabled = true;
+          }
+        );
+
+      }
 
     }
 
 
     /* =========================
-       カテゴリフィルター
+       カテゴリ切り替え
     ========================= */
 
-    function filterCategory(category) {
+    function changeCategory(
+      category
+    ) {
 
-      currentCategory = category;
+      currentCategory =
+        category;
 
+
+      /*
+
+        タブの見た目を変更
+
+      */
 
       const tabs =
         document.querySelectorAll(
@@ -1286,29 +1474,50 @@
         );
 
 
-      tabs.forEach(tab => {
+      tabs.forEach(
+        tab => {
 
-        tab.classList.remove("selected");
-
-      });
-
-
-      const selectedIndex =
-
-        category === "all"
-          ? 0
-          : category === "trend"
-          ? 1
-          : category === "relatable"
-          ? 2
-          : 3;
+          tab.classList.remove(
+            "selected"
+          );
 
 
-      tabs[selectedIndex]
-        .classList.add("selected");
+          if (
+            tab.dataset.category ===
+            category
+          ) {
 
+            tab.classList.add(
+              "selected"
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+
+        フィードを更新
+
+      */
 
       renderPosts();
+
+
+      /*
+
+        一番上へ戻す
+
+      */
+
+      document
+        .getElementById("feed")
+        .scrollTo({
+          top: 0,
+          behavior: "instant"
+        });
 
     }
 
@@ -1319,28 +1528,26 @@
 
     function updateCounter() {
 
-      const feed =
-        document.getElementById("feed");
-
-      const postsCount =
-        feed.children.length;
-
-
-      const height =
-        feed.clientHeight ||
-        window.innerHeight;
+      const counter =
+        document.getElementById(
+          "counter"
+        );
 
 
-      const current =
-        Math.round(
-          feed.scrollTop / height
-        ) + 1;
+      if (
+        visiblePosts.length === 0
+      ) {
+
+        counter.textContent =
+          "0 / 0";
+
+        return;
+
+      }
 
 
-      document.getElementById(
-        "counter"
-      ).textContent =
-        `${Math.min(current, postsCount)} / ${postsCount}`;
+      counter.textContent =
+        `1 / ${visiblePosts.length}`;
 
     }
 
@@ -1349,12 +1556,44 @@
        スクロール
     ========================= */
 
-    document
-      .getElementById("feed")
-      .addEventListener(
-        "scroll",
-        updateCounter
+    const feed =
+      document.getElementById(
+        "feed"
       );
+
+
+    const counter =
+      document.getElementById(
+        "counter"
+      );
+
+
+    feed.addEventListener(
+      "scroll",
+      () => {
+
+        if (
+          visiblePosts.length === 0
+        ) {
+          return;
+        }
+
+
+        const viewportHeight =
+          feed.clientHeight || window.innerHeight;
+
+        const currentIndex =
+          Math.round(
+            feed.scrollTop /
+            viewportHeight
+          );
+
+
+        counter.textContent =
+          `${currentIndex + 1} / ${visiblePosts.length}`;
+
+      }
+    );
 
 
     /* =========================
@@ -1380,58 +1619,87 @@
 
 
     /* =========================
-       カテゴリ選択
+       投稿カテゴリ
     ========================= */
 
-    function selectCategory(button) {
+    let selectedCategory =
+      "流行・話題";
+
+
+    function selectCategory(
+      button
+    ) {
 
       const buttons =
         document.querySelectorAll(
           ".category-button"
         );
 
-
       buttons.forEach(
-        btn =>
-          btn.classList.remove("selected")
+        button => {
+
+          button.classList.remove(
+            "selected"
+          );
+
+        }
       );
 
+      button.classList.add(
+        "selected"
+      );
 
-      button.classList.add("selected");
-
-
-      const category =
+      selectedCategory =
         button.dataset.category;
-
 
       const postText =
         document.getElementById(
           "postText"
         );
 
-
-      if (category === "trend") {
+      if (
+        selectedCategory ===
+        "流行・話題"
+      ) {
 
         postText.placeholder =
           "今、何が話題になってる？";
 
       }
 
-
-      if (category === "relatable") {
+      if (
+        selectedCategory ===
+        "共感・あるある"
+      ) {
 
         postText.placeholder =
           "みんな、こんな経験してる？";
 
       }
 
-
-      if (category === "opinion") {
+      if (
+        selectedCategory ===
+        "意見・価値観"
+      ) {
 
         postText.placeholder =
           "みんなはどう考える？";
 
       }
+
+    }
+
+
+    function updateChoiceCount(inputId, countId) {
+
+      const input =
+        document.getElementById(inputId);
+
+      const counter =
+        document.getElementById(countId);
+
+      counter.textContent =
+        input.value.length;
 
     }
 
@@ -1444,72 +1712,99 @@
 
       const text =
         document
-          .getElementById("postText")
-          .value.trim();
+          .getElementById(
+            "postText"
+          )
+          .value
+          .trim();
 
 
-      const choiceA =
+      const left =
         document
-          .getElementById("choiceA")
-          .value.trim();
+          .getElementById(
+            "leftChoice"
+          )
+          .value
+          .trim();
 
 
-      const choiceB =
+      const right =
         document
-          .getElementById("choiceB")
-          .value.trim();
+          .getElementById(
+            "rightChoice"
+          )
+          .value
+          .trim();
 
 
       if (!text) {
 
-        alert("投稿内容を入力してください。");
-
-        return;
-
-      }
-
-
-      if (!choiceA || !choiceB) {
-
-        alert("選択肢を2つ入力してください。");
-
-        return;
-
-      }
-
-
-      const selectedCategory =
-        document.querySelector(
-          ".category-button.selected"
+        alert(
+          "投稿内容を入力してください。"
         );
 
+        return;
 
-      const category =
-        selectedCategory.dataset.category;
+      }
+
+
+      if (!left || !right) {
+
+        alert(
+          "左右の選択肢を入力してください。"
+        );
+
+        return;
+
+      }
+
+
+      if (left.length > 10 || right.length > 10) {
+
+        alert(
+          "選択肢は10文字以内にしてください。"
+        );
+
+        return;
+
+      }
 
 
       const newPost = {
 
-        id: Date.now(),
+        category:
+          selectedCategory,
 
-        category: category,
+        text:
+          text,
 
-        text: text,
+        left:
+          left,
 
-        choiceA: choiceA,
-
-        choiceB: choiceB
+        right:
+          right
 
       };
 
 
-      posts.unshift(newPost);
+      userPosts.unshift(
+        newPost
+      );
 
 
       localStorage.setItem(
-        "airPeekPosts",
-        JSON.stringify(posts)
+        "airPeekUserPosts",
+        JSON.stringify(userPosts)
       );
+
+
+      posts = [
+        ...userPosts,
+        ...defaultPosts
+      ];
+
+
+      renderPosts();
 
 
       document.getElementById(
@@ -1518,85 +1813,41 @@
 
 
       document.getElementById(
-        "choiceA"
+        "leftChoice"
       ).value = "";
 
 
       document.getElementById(
-        "choiceB"
+        "rightChoice"
       ).value = "";
+
+
+      updateChoiceCount(
+        "leftChoice",
+        "leftChoiceCount"
+      );
+
+      updateChoiceCount(
+        "rightChoice",
+        "rightChoiceCount"
+      );
 
 
       closePostScreen();
 
 
-      currentCategory = "all";
-
-
       document
-        .querySelectorAll(
-          ".category-tab"
-        )
-        .forEach(tab =>
-          tab.classList.remove("selected")
-        );
-
-
-      document
-        .querySelector(
-          ".category-tab"
-        )
-        .classList.add("selected");
-
-
-      renderPosts();
+        .getElementById("feed")
+        .scrollTo({
+          top: 0,
+          behavior: "instant"
+        });
 
     }
 
 
     /* =========================
-       選択肢文字数
-    ========================= */
-
-    const choiceAInput =
-      document.getElementById("choiceA");
-
-    const choiceBInput =
-      document.getElementById("choiceB");
-
-
-    function updateChoiceCounter() {
-
-      const lengthA =
-        choiceAInput.value.length;
-
-
-      const lengthB =
-        choiceBInput.value.length;
-
-
-      document.getElementById(
-        "choiceCounter"
-      ).textContent =
-        `${Math.max(lengthA, lengthB)} / 10`;
-
-    }
-
-
-    choiceAInput.addEventListener(
-      "input",
-      updateChoiceCounter
-    );
-
-
-    choiceBInput.addEventListener(
-      "input",
-      updateChoiceCounter
-    );
-
-
-    /* =========================
-       初期表示
+       最初に表示
     ========================= */
 
     renderPosts();
