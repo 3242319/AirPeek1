@@ -221,20 +221,7 @@
 
 
      .choice-label {
-      font-family: "Trebuchet MS", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-      font-size: 15px;
-
-      line-height: 1.3;
-
-      min-height: 36px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
+      display: none;
     }
 
 
@@ -259,8 +246,6 @@
       border-radius: 16px;
 
       background: white;
-      color: #111;
-      -webkit-text-fill-color: #111;
 
       cursor: pointer;
 
@@ -270,34 +255,52 @@
     }
 
 
-    .vote-button:not(.neutral):hover {
+    .vote-button-text {
+      font-family: "Trebuchet MS", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      color: #222;
+      display: block;
+      width: 100%;
+    }
+
+    .vote-button.selected .vote-button-text {
+      color: #fff;
+    }
+
+    .neutral-mark {
+      font-family: sans-serif;
+      font-size: 24px;
+      line-height: 1;
+      color: #555;
+      display: block;
+    }
+
+    .neutral.selected .neutral-mark {
+      color: #fff;
+    }
+
+    .vote-button:not(.neutral):not(:disabled):hover {
       transform: translateY(-2px);
       border-color: #252a2d;
       box-shadow: 0 5px 12px rgba(70, 90, 98, 0.14);
     }
 
 
-    .vote-button:not(.neutral):active {
+    .vote-button:not(.neutral):not(:disabled):active {
       transform: translateY(0) scale(0.97);
     }
 
 
     .vote-button:disabled {
       cursor: default;
-      opacity: 1;
     }
 
 
     .vote-button:disabled:hover {
       transform: none;
-    }
-
-    .neutral:hover {
-      transform: translateY(-10px);
-    }
-
-    .neutral:active {
-      transform: translateY(-10px) scale(0.97);
     }
 
 
@@ -309,23 +312,33 @@
 
       border: none;
       border-radius: 50%;
-      flex-shrink: 0;
-      transform: translateY(-10px);
+
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+
+    .neutral:not(.selected):not(:disabled):hover {
+      background: #c7c7c7;
+      transform: scale(1.04);
+    }
+
+
+    .neutral:not(.selected):not(:disabled):active {
+      background: #bdbdbd;
+      transform: scale(0.96);
     }
 
 
     .vote-button.selected {
       background: #2f3437;
       border-color: #2f3437;
-      color: white;
-      -webkit-text-fill-color: white;
       box-shadow: 0 4px 10px rgba(50, 55, 58, 0.18);
     }
 
 
     .neutral.selected {
       background: #2f3437;
-      transform: translateY(-10px);
+      border-color: #2f3437;
     }
 
 
@@ -387,6 +400,46 @@
 
     .open-post-button:hover {
       transform: scale(1.05);
+    }
+
+
+    /* =========================
+       テスト用リセットボタン
+    ========================= */
+
+    .reset-test-button {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+
+      border: 1px solid #b8c8ce;
+      border-radius: 12px;
+
+      background: rgba(255, 255, 255, 0.94);
+      color: #58717d;
+
+      padding: 9px 12px;
+
+      font-size: 12px;
+      font-weight: bold;
+
+      cursor: pointer;
+      z-index: 60;
+
+      box-shadow: 0 3px 10px rgba(70, 90, 98, 0.10);
+
+      transition: background-color 0.12s ease, color 0.12s ease, transform 0.08s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .reset-test-button:hover {
+      background: #eaf5f8;
+    }
+
+    .reset-test-button:active {
+      background: #d7e9ee;
+      transform: scale(0.97);
     }
 
 
@@ -629,8 +682,23 @@
     }
 
     .comment-icon {
-      font-size: 24px;
-      line-height: 1;
+      width: 27px;
+      height: 27px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #2f3437;
+    }
+
+    .comment-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .comment-button.locked .comment-icon {
+      color: #6f828a;
     }
 
     .comment-button:hover {
@@ -884,9 +952,14 @@
         border-radius: 16px;
       }
 
+      .vote-button-text {
+        font-size: 14px;
+      }
+
       .neutral {
         width: 46px;
         height: 46px;
+        border-radius: 50%;
       }
 
       .question {
@@ -902,18 +975,24 @@
     }
 
     @media (hover: none) and (pointer: coarse) {
-      .vote-button:hover,
+      .vote-button:not(.neutral):hover,
       .open-post-button:hover {
         transform: none;
       }
 
-      .vote-button:active,
+      .vote-button:not(.neutral):active,
       .open-post-button:active,
       .category-button:active,
       .category-tab:active,
       .close-button:active,
       .submit-button:active {
         opacity: 0.75;
+      }
+
+      .neutral:not(.selected):not(:disabled):active {
+        background: #bdbdbd;
+        opacity: 1;
+        transform: scale(0.96);
       }
     }
 
@@ -996,6 +1075,18 @@
     onclick="openPostScreen()"
   >
     ＋
+  </button>
+
+
+  <!-- =========================
+       テスト用リセットボタン
+  ========================= -->
+
+  <button
+    class="reset-test-button"
+    onclick="resetVoteTestData()"
+  >
+    投票リセット
   </button>
 
 
@@ -1466,9 +1557,6 @@
 
                 <div class="choice">
 
-                  <div class="choice-label choice-label-above">
-                  </div>
-
                   <div
                     class="percentage"
                     id="percent-${originalIndex}-left"
@@ -1476,20 +1564,19 @@
 
                   <button
                     class="vote-button"
+                    aria-label="${post.left}"
                     onclick="vote(
                       ${originalIndex},
                       'left'
                     )"
-                  >${post.left}</button>
+                  >
+                    <span class="vote-button-text">${post.left}</span>
+                  </button>
 
                 </div>
 
 
                 <div class="choice">
-
-                  <div class="choice-label">
-                    &nbsp;
-                  </div>
 
                   <div
                     class="percentage"
@@ -1498,19 +1585,18 @@
 
                   <button
                     class="vote-button neutral"
+                    aria-label="中立"
                     onclick="vote(
                       ${originalIndex},
                       'center'
                     )"
-                  ></button>
+                  >
+                  </button>
 
                 </div>
 
 
                 <div class="choice">
-
-                  <div class="choice-label choice-label-above">
-                  </div>
 
                   <div
                     class="percentage"
@@ -1519,11 +1605,14 @@
 
                   <button
                     class="vote-button"
+                    aria-label="${post.right}"
                     onclick="vote(
                       ${originalIndex},
                       'right'
                     )"
-                  >${post.right}</button>
+                  >
+                    <span class="vote-button-text">${post.right}</span>
+                  </button>
 
                 </div>
 
@@ -1535,7 +1624,22 @@
                   class="comment-button locked"
                   onclick="commentButtonClicked(${originalIndex})"
                 >
-                  🔒 <span class="comment-icon">💬</span> <span class="comment-count">0</span>
+                  <span class="comment-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                      <path
+                        d="M11 17.5C11 12.253 15.253 8 20.5 8h23C48.747 8 53 12.253 53 17.5v17C53 39.747 48.747 44 43.5 44H29l-11.5 10 2.4-10H20.5C15.253 44 11 39.747 11 34.5v-17Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <circle cx="24" cy="26" r="2.8" fill="currentColor" />
+                      <circle cx="32" cy="26" r="2.8" fill="currentColor" />
+                      <circle cx="40" cy="26" r="2.8" fill="currentColor" />
+                    </svg>
+                  </span>
+                  <span class="comment-count">0</span>
                 </button>
 
                 <div class="comments-panel">
@@ -1999,10 +2103,40 @@
 
       if (isVoted(postIndex)) {
         buttonElement.classList.remove("locked");
-        buttonElement.innerHTML = `💬 <span class="comment-count">${comments.length}</span>`;
+        buttonElement.innerHTML = `<span class="comment-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+            <path
+              d="M11 17.5C11 12.253 15.253 8 20.5 8h23C48.747 8 53 12.253 53 17.5v17C53 39.747 48.747 44 43.5 44H29l-11.5 10 2.4-10H20.5C15.253 44 11 39.747 11 34.5v-17Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="24" cy="26" r="2.8" fill="currentColor" />
+            <circle cx="32" cy="26" r="2.8" fill="currentColor" />
+            <circle cx="40" cy="26" r="2.8" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="comment-count">${comments.length}</span>`;
       } else {
         buttonElement.classList.add("locked");
-        buttonElement.innerHTML = `🔒 💬 <span class="comment-count">${comments.length}</span>`;
+        buttonElement.innerHTML = `<span class="comment-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+            <path
+              d="M11 17.5C11 12.253 15.253 8 20.5 8h23C48.747 8 53 12.253 53 17.5v17C53 39.747 48.747 44 43.5 44H29l-11.5 10 2.4-10H20.5C15.253 44 11 39.747 11 34.5v-17Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="24" cy="26" r="2.8" fill="currentColor" />
+            <circle cx="32" cy="26" r="2.8" fill="currentColor" />
+            <circle cx="40" cy="26" r="2.8" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="comment-count">${comments.length}</span>`;
         panel.classList.remove("show");
       }
     }
@@ -2735,6 +2869,27 @@
 
     }
 
+
+
+    /* =========================
+       テスト用リセット
+    ========================= */
+
+    function resetVoteTestData() {
+
+      const shouldReset = confirm(
+        "投票履歴と投票結果をリセットしますか？\n\n投稿内容とコメントは残ります。"
+      );
+
+      if (!shouldReset) {
+        return;
+      }
+
+      localStorage.removeItem("airPeekMyVotes");
+      localStorage.removeItem("airPeekAllVotes");
+
+      location.reload();
+    }
 
     /* =========================
        最初に表示
