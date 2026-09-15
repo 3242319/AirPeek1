@@ -442,25 +442,6 @@
     }
 
 
-    .category-help {
-      font-size: 13px;
-
-      color: #58717d;
-
-      background: white;
-
-      border-radius: 12px;
-
-      padding: 12px;
-
-      margin-top: -20px;
-
-      margin-bottom: 25px;
-
-      text-align: center;
-    }
-
-
     /* =========================
        入力欄
     ========================= */
@@ -544,6 +525,112 @@
       margin-bottom: 25px;
     }
 
+
+    /* =========================
+       コメント
+    ========================= */
+
+    .comment-area {
+      margin-top: 22px;
+      text-align: left;
+    }
+
+    .comment-button {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #58717d;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 9px 2px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .comment-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .comment-button:hover {
+      opacity: 0.75;
+    }
+
+    .comment-button.locked {
+      color: #9aadb5;
+    }
+
+    .comments-panel {
+      display: none;
+      margin-top: 8px;
+      padding: 12px;
+      background: #f7fcfe;
+      border: 1px solid #d5e8ee;
+      border-radius: 14px;
+    }
+
+    .comments-panel.show {
+      display: block;
+    }
+
+    .comments-list {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    .comment-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #e5f0f3;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .comment-item:last-child {
+      border-bottom: none;
+    }
+
+    .comment-empty {
+      color: #8aa0a9;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .comment-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .comment-input {
+      flex: 1;
+      min-width: 0;
+      margin: 0 !important;
+      padding: 10px 12px !important;
+      font-size: 14px !important;
+      border-radius: 12px !important;
+    }
+
+    .comment-submit {
+      flex-shrink: 0;
+      border: none;
+      border-radius: 12px;
+      padding: 0 13px;
+      background: #8fccef;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .comment-submit:hover {
+      opacity: 0.85;
+    }
 
     /* =========================
        投稿する
@@ -1216,12 +1303,55 @@
 
               </div>
 
+              <div class="comment-area">
+
+                <button
+                  class="comment-button locked"
+                  onclick="commentButtonClicked(${originalIndex})"
+                >
+                  🔒 <span class="comment-icon">💬</span> <span class="comment-count">0</span>
+                </button>
+
+                <div class="comments-panel">
+
+                  <div class="comments-list"></div>
+
+                  <div class="comment-form">
+                    <input
+                      class="comment-input"
+                      type="text"
+                      maxlength="100"
+                      placeholder="コメントを書く"
+                    >
+
+                    <button
+                      class="comment-submit"
+                      onclick="addComment(
+                        ${originalIndex},
+                        this.previousElementSibling,
+                        this.closest('.post')
+                      )"
+                    >
+                      送信
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+
             </div>
 
           `;
 
 
           feed.appendChild(section);
+
+
+          renderComments(
+            originalIndex,
+            section
+          );
 
 
           /*
@@ -1279,6 +1409,8 @@
 
 
       showResult(postIndex);
+
+      unlockComments(postIndex);
 
     }
 
@@ -1447,6 +1579,235 @@
 
       }
 
+    }
+
+
+    /* =========================
+       コメントデータ
+    ========================= */
+
+    const defaultComments = {
+      0: [
+        "これめっちゃ聞いたことある",
+        "どこで流れてるか気になる",
+        "最近よく耳にする！"
+      ],
+      1: [
+        "まだ見ることある",
+        "たしかにちょっと懐かしい",
+        "自分の周りでは現役かも"
+      ],
+      2: [
+        "周りでも話題になってる",
+        "見てる人多い気がする"
+      ],
+      3: [
+        "コンビニでよく見る",
+        "最近飲んでる人多いよね"
+      ],
+      4: [
+        "知らなかった！",
+        "最近そういう話聞いた"
+      ],
+      5: [
+        "めっちゃやる",
+        "気づいたらもう1本見てる"
+      ],
+      6: [
+        "これあるある",
+        "買ったあとに冷静になるやつ"
+      ],
+      7: [
+        "わかる、直前にやる気出る",
+        "自分は前日派"
+      ],
+      8: [
+        "通知だけ消して後で見る",
+        "反射で消しちゃう"
+      ],
+      9: [
+        "これ本当にある",
+        "何しに来たんだっけってなる"
+      ],
+      10: [
+        "夜のほうが集中できる",
+        "朝はどうしても眠い"
+      ],
+      11: [
+        "旅行はノープランが楽しい",
+        "でもホテルだけは予約する"
+      ],
+      12: [
+        "一人の時間かなり大事",
+        "ずっと一人だと寂しいけどね"
+      ],
+      13: [
+        "一人だと集中できる",
+        "終わったあと感想を話したい"
+      ],
+      14: [
+        "家でゆっくりしたい",
+        "天気がいい日は外に出たい"
+      ]
+    };
+
+    let userComments =
+      JSON.parse(
+        localStorage.getItem("airPeekComments")
+      ) || {};
+
+
+    function getComments(postIndex) {
+      const saved = userComments[postIndex];
+
+      if (saved) {
+        return saved;
+      }
+
+      return defaultComments[postIndex] || [];
+    }
+
+
+    function isVoted(postIndex) {
+      return !!myVotes[postIndex];
+    }
+
+
+    function unlockComments(postIndex) {
+      const visibleIndex =
+        visiblePosts.findIndex(
+          item => item.originalIndex === postIndex
+        );
+
+      if (visibleIndex === -1) {
+        return;
+      }
+
+      const postElement =
+        document.querySelectorAll(".post")[visibleIndex];
+
+      if (!postElement) {
+        return;
+      }
+
+      renderComments(postIndex, postElement);
+    }
+
+
+    function commentButtonClicked(postIndex) {
+      if (!isVoted(postIndex)) {
+        alert("投票すると、みんなのコメントを覗けます。");
+        return;
+      }
+
+      const visibleIndex =
+        visiblePosts.findIndex(
+          item => item.originalIndex === postIndex
+        );
+
+      if (visibleIndex === -1) {
+        return;
+      }
+
+      const postElement =
+        document.querySelectorAll(".post")[visibleIndex];
+
+      if (!postElement) {
+        return;
+      }
+
+      const panel =
+        postElement.querySelector(".comments-panel");
+
+      if (!panel) {
+        return;
+      }
+
+      panel.classList.toggle("show");
+    }
+
+
+    function renderComments(postIndex, postElement) {
+      const comments = getComments(postIndex);
+      const countElement =
+        postElement.querySelector(".comment-count");
+      const listElement =
+        postElement.querySelector(".comments-list");
+      const buttonElement =
+        postElement.querySelector(".comment-button");
+      const panel =
+        postElement.querySelector(".comments-panel");
+
+      if (!countElement || !listElement || !buttonElement || !panel) {
+        return;
+      }
+
+      countElement.textContent = comments.length;
+
+      listElement.innerHTML = "";
+
+      if (comments.length === 0) {
+        listElement.innerHTML =
+          '<div class="comment-empty">まだコメントはありません</div>';
+      } else {
+        comments.forEach(comment => {
+          const item = document.createElement("div");
+          item.className = "comment-item";
+          item.textContent = comment;
+          listElement.appendChild(item);
+        });
+      }
+
+      if (isVoted(postIndex)) {
+        buttonElement.classList.remove("locked");
+        buttonElement.innerHTML = `💬 <span class="comment-count">${comments.length}</span>`;
+      } else {
+        buttonElement.classList.add("locked");
+        buttonElement.innerHTML = `🔒 💬 <span class="comment-count">${comments.length}</span>`;
+        panel.classList.remove("show");
+      }
+    }
+
+
+    function addComment(postIndex, input, postElement) {
+      if (!isVoted(postIndex)) {
+        alert("投票すると、コメントできます。");
+        return;
+      }
+
+      const text = input.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      if (text.length > 100) {
+        alert("コメントは100文字以内で入力してください。");
+        return;
+      }
+
+      if (!userComments[postIndex]) {
+        userComments[postIndex] =
+          [...(defaultComments[postIndex] || [])];
+      }
+
+      userComments[postIndex].push(text);
+
+      localStorage.setItem(
+        "airPeekComments",
+        JSON.stringify(userComments)
+      );
+
+      input.value = "";
+
+      renderComments(postIndex, postElement);
+
+      const panel =
+        postElement.querySelector(".comments-panel");
+
+      if (panel) {
+        panel.classList.add("show");
+      }
     }
 
 
