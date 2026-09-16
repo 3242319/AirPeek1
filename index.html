@@ -124,13 +124,13 @@
 
       width: 100%;
       max-width: 500px;
-      max-height: calc(100dvh - 110px);
+      max-height: calc(100dvh - 88px);
 
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-y: auto;
 
-      padding: 30px 20px;
+      padding: 24px 20px;
 
       border-radius: 20px;
 
@@ -159,7 +159,7 @@
 
       color: #496674;
 
-      margin-bottom: 25px;
+      margin-bottom: 18px;
 
       padding: 6px 12px;
 
@@ -173,8 +173,8 @@
       background: #ffffff;
       border: 1px solid #e3ecef;
       border-radius: 16px;
-      padding: 20px 16px;
-      margin-bottom: 40px;
+      padding: 18px 16px;
+      margin-bottom: 26px;
       box-shadow: 0 3px 10px rgba(120, 100, 70, 0.08);
     }
 
@@ -198,25 +198,20 @@
 
     .choices {
       display: flex;
-
+      flex-direction: column;
       justify-content: center;
-
-      align-items: flex-end;
-
-      gap: 25px;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
     }
 
 
     .choice {
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
-      gap: 10px;
-
-      width: 90px;
+      gap: 5px;
+      width: min(100%, 360px);
     }
 
 
@@ -238,8 +233,10 @@
 
 
     .vote-button {
-      width: 78px;
-      height: 70px;
+      width: min(100%, 360px);
+      min-height: 50px;
+      height: auto;
+      padding: 10px 16px;
 
       border: 2px solid #3f474b;
 
@@ -270,26 +267,14 @@
       color: #fff;
     }
 
-    .neutral-mark {
-      font-family: sans-serif;
-      font-size: 24px;
-      line-height: 1;
-      color: #555;
-      display: block;
-    }
-
-    .neutral.selected .neutral-mark {
-      color: #fff;
-    }
-
-    .vote-button:not(.neutral):not(:disabled):hover {
+    .vote-button:not(:disabled):hover {
       transform: translateY(-2px);
       border-color: #252a2d;
       box-shadow: 0 5px 12px rgba(70, 90, 98, 0.14);
     }
 
 
-    .vote-button:not(.neutral):not(:disabled):active {
+    .vote-button:not(:disabled):active {
       transform: translateY(0) scale(0.97);
     }
 
@@ -304,29 +289,7 @@
     }
 
 
-    .neutral {
-      width: 50px;
-      height: 50px;
 
-      background: #d7d7d7;
-
-      border: none;
-      border-radius: 50%;
-
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-
-
-    .neutral:not(.selected):not(:disabled):hover {
-      background: #c7c7c7;
-      transform: scale(1.04);
-    }
-
-
-    .neutral:not(.selected):not(:disabled):active {
-      background: #bdbdbd;
-      transform: scale(0.96);
-    }
 
 
     .vote-button.selected {
@@ -335,11 +298,6 @@
       box-shadow: 0 4px 10px rgba(50, 55, 58, 0.18);
     }
 
-
-    .neutral.selected {
-      background: #2f3437;
-      border-color: #2f3437;
-    }
 
 
     /* =========================
@@ -617,29 +575,254 @@
 
 
     /* =========================
+       投稿形式
+    ========================= */
+
+    .post-type-area {
+      margin-bottom: 25px;
+    }
+
+    .post-type-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .post-type-button {
+      flex: 1;
+      padding: 12px 8px;
+      border: 1px solid #d5e8ee;
+      border-radius: 12px;
+      background: white;
+      color: #536873;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .post-type-button.selected {
+      background: #f2dca8;
+      border-color: #f2dca8;
+    }
+
+    .post-type-button:not(.selected):hover {
+      background: #f1f4f5;
+      border-color: #d5e0e4;
+    }
+
+    .post-type-button:not(.selected):active {
+      background: #e5eaed;
+      border-color: #cbd8dd;
+      transform: scale(0.98);
+    }
+
+    .post-type-button.selected:hover {
+      background: #e8c989;
+      border-color: #e8c989;
+    }
+
+    .post-type-button.selected:active {
+      background: #d9bb72;
+      border-color: #d9bb72;
+      transform: scale(0.98);
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .post-type-button:not(.selected):hover {
+        background: white;
+        border-color: #d5e8ee;
+      }
+
+      .post-type-button.selected:hover {
+        background: #f2dca8;
+        border-color: #f2dca8;
+      }
+    }
+
+    .post-type-help {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #7b929c;
+      line-height: 1.5;
+    }
+
+    .choice-inputs.hidden,
+    .choice-counter.hidden,
+    .choice-title.hidden,
+    .post-type-area.hidden {
+      display: none;
+    }
+
+    .gauge-note {
+      display: none;
+      padding: 12px 14px;
+      border: 1px solid #d5e8ee;
+      border-radius: 12px;
+      background: #f7fcfe;
+      color: #58717d;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .gauge-note.show {
+      display: block;
+    }
+
+    .gauge-preview {
+      display: none;
+      margin: -12px 0 25px;
+      padding: 14px 14px 12px;
+      background: #ffffff;
+      border: 1px solid #d5e8ee;
+      border-radius: 14px;
+    }
+
+    .gauge-preview.show {
+      display: block;
+    }
+
+    .gauge-preview-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #58717d;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .gauge-preview-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gauge-preview-label {
+      flex: 1;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #4f6068;
+    }
+
+    .gauge-preview-label.left {
+      text-align: left;
+    }
+
+    .gauge-preview-label.right {
+      text-align: right;
+    }
+
+    .gauge-preview-track {
+      flex: 1.2;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(to right, #d7e2e6, #7bbde0);
+    }
+
+    .gauge-card {
+      margin-top: 8px;
+      padding: 4px 10px 8px;
+      text-align: center;
+    }
+
+    .gauge-result {
+      min-height: 22px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #777;
+    }
+
+    .gauge-range-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .gauge-range {
+      width: 100%;
+      accent-color: #3f474b;
+      cursor: pointer;
+      touch-action: auto;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .gauge-range::-webkit-slider-thumb {
+      cursor: grab;
+    }
+
+    .gauge-range:active::-webkit-slider-thumb {
+      cursor: grabbing;
+    }
+
+    .gauge-range:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11px;
+      color: #7f939b;
+    }
+
+    /* =========================
        選択肢入力
     ========================= */
 
+
+    .gauge-endpoint-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 6px;
+      font-size: 11px;
+      color: #7f939b;
+      text-align: center;
+    }
+
     .choice-inputs {
       display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 14px;
+    }
 
+    /* ゲージ形式では左右の端点を横並びにする */
+    .choice-inputs.gauge-horizontal {
+      flex-direction: row;
       gap: 10px;
+    }
 
-      align-items: center;
-
-      margin-bottom: 25px;
+    .choice-inputs.gauge-horizontal input {
+      flex: 1;
+      min-width: 0;
     }
 
 
     .choice-inputs input {
       margin: 0;
+      min-height: 50px;
+      padding: 12px 14px;
+      border: 2px solid #3f474b;
+      border-radius: 16px;
+      background: #ffffff;
+      color: #222;
+      font-weight: 700;
+      text-align: center;
     }
 
 
-    .choice-inputs span {
-      color: #888;
-
-      font-size: 18px;
+    .choice-inputs input:focus {
+      border-color: #252a2d;
     }
 
 
@@ -650,9 +833,9 @@
 
       text-align: center;
 
-      margin-top: -15px;
+      margin-top: 0;
 
-      margin-bottom: 25px;
+      margin-bottom: 16px;
     }
 
 
@@ -661,7 +844,7 @@
     ========================= */
 
     .comment-area {
-      margin-top: 22px;
+      margin-top: 16px;
       text-align: left;
     }
 
@@ -676,7 +859,7 @@
       color: #58717d;
       font-size: 15px;
       cursor: pointer;
-      padding: 9px 2px;
+      padding: 7px 2px;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
     }
@@ -939,31 +1122,30 @@
       }
 
       .choices {
-        gap: 8px;
+        gap: 10px;
       }
 
       .choice {
-        min-width: 68px;
+        width: 100%;
       }
 
-      .vote-button:not(.neutral) {
-        width: 82px;
-        height: 54px;
-        border-radius: 16px;
+      .vote-button {
+        width: min(100%, 320px);
+        min-height: 50px;
+        border-radius: 14px;
       }
 
       .vote-button-text {
         font-size: 14px;
       }
 
-      .neutral {
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
+      .question-box {
+        padding: 16px 14px;
+        margin-bottom: 22px;
       }
 
       .question {
-        margin-bottom: 32px;
+        margin-bottom: 0;
       }
     }
 
@@ -975,24 +1157,18 @@
     }
 
     @media (hover: none) and (pointer: coarse) {
-      .vote-button:not(.neutral):hover,
+      .vote-button:hover,
       .open-post-button:hover {
         transform: none;
       }
 
-      .vote-button:not(.neutral):active,
+      .vote-button:active,
       .open-post-button:active,
       .category-button:active,
       .category-tab:active,
       .close-button:active,
       .submit-button:active {
         opacity: 0.75;
-      }
-
-      .neutral:not(.selected):not(:disabled):active {
-        background: #bdbdbd;
-        opacity: 1;
-        transform: scale(0.96);
       }
     }
 
@@ -1149,6 +1325,48 @@
       </div>
 
 
+      <div
+        class="post-type-area"
+        id="postTypeArea"
+      >
+
+        <div class="form-title">
+          投稿形式
+        </div>
+
+        <div class="post-type-buttons">
+
+          <button
+            type="button"
+            class="post-type-button selected"
+            id="choiceTypeButton"
+            onclick="selectPostType('choice')"
+          >
+            2択
+          </button>
+
+          <button
+            type="button"
+            class="post-type-button"
+            id="gaugeTypeButton"
+            onclick="selectPostType('gauge')"
+          >
+            ゲージ
+          </button>
+
+        </div>
+
+        <div
+          class="post-type-help"
+          id="postTypeHelp"
+        >
+          2つの選択肢から直感で選んでもらいます。
+        </div>
+
+      </div>
+
+
+
       <div class="form-title">
         投稿内容
       </div>
@@ -1202,36 +1420,70 @@
       </div>
 
 
-      <div class="form-title">
+      <div
+        class="form-title choice-title"
+        id="choiceTitle"
+      >
         選択肢
       </div>
 
 
-      <div class="choice-inputs">
+      <div
+        class="gauge-endpoint-labels hidden"
+        id="gaugeEndpointLabels"
+      >
+        <div>左端の言葉</div>
+        <div>右端の言葉</div>
+      </div>
+
+      <div
+        class="choice-inputs"
+        id="choiceInputs"
+      >
 
         <input
           id="leftChoice"
           type="text"
-          maxlength="10"
-          placeholder="左の選択肢"
+          maxlength="20"
+          placeholder="1つ目の選択肢"
           oninput="updateChoiceCount('leftChoice', 'leftChoiceCount')"
         >
-
-        <span>○</span>
 
         <input
           id="rightChoice"
           type="text"
-          maxlength="10"
-          placeholder="右の選択肢"
+          maxlength="20"
+          placeholder="2つ目の選択肢"
           oninput="updateChoiceCount('rightChoice', 'rightChoiceCount')"
         >
 
       </div>
 
-      <div class="choice-counter">
-        左：<span id="leftChoiceCount">0</span> / 10文字
-       　右：<span id="rightChoiceCount">0</span> / 10文字
+      <div
+        class="gauge-preview"
+        id="gaugePreview"
+      >
+        <div class="gauge-preview-title">ゲージのイメージ</div>
+        <div class="gauge-preview-line">
+          <div
+            class="gauge-preview-label left"
+            id="gaugePreviewLeft"
+          >左端の言葉</div>
+
+          <div class="gauge-preview-track" aria-hidden="true"></div>
+
+          <div
+            class="gauge-preview-label right"
+            id="gaugePreviewRight"
+          >右端の言葉</div>
+        </div>
+      </div>
+
+      <div
+        class="choice-counter"
+        id="choiceCounter"
+      >
+        1つ目：<span id="leftChoiceCount">0</span> / 20文字　2つ目：<span id="rightChoiceCount">0</span> / 20文字
       </div>
 
 
@@ -1253,114 +1505,17 @@
        初期投稿
     ========================= */
 
-    const defaultPosts = [
+    const defaultPosts = [];
 
-      {
-        category: "流行・話題",
-        text: "この曲、みんな一回は聞いたことある？",
-        left: "聞いたことある",
-        right: "知らない"
-      },
 
-      {
-        category: "流行・話題",
-        text: "このミーム、まだ現役だと思う？",
-        left: "まだ現役",
-        right: "もう古い"
-      },
+    /* =========================
+       初期状態を完全に空にする
+    ========================= */
 
-      {
-        category: "流行・話題",
-        text: "このドラマ、周りで話題になってる？",
-        left: "話題になってる",
-        right: "あまり聞かない"
-      },
-
-      {
-        category: "流行・話題",
-        text: "最近この飲み物、よく見る気しない？",
-        left: "よく見る",
-        right: "そうでもない"
-      },
-
-      {
-        category: "流行・話題",
-        text: "あのカップル最近別れたんだってー！みんな知ってた？",
-        left: "知ってた",
-        right: "知らなかった"
-      },
-
-      {
-        category: "共感・あるある",
-        text: "寝る前に「あと1本だけ動画見る」ってやる？",
-        left: "よくやる",
-        right: "ほぼない"
-      },
-
-      {
-        category: "共感・あるある",
-        text: "買い物で「カゴに入れたけど戻す」ってやる？",
-        left: "よくある",
-        right: "ほぼない"
-      },
-
-      {
-        category: "共感・あるある",
-        text: "予定の30分前に急にやる気出る。",
-        left: "わかる",
-        right: "そうでもない"
-      },
-
-      {
-        category: "共感・あるある",
-        text: "スマホの通知、来た瞬間に消しがち。",
-        left: "わかる",
-        right: "そうでもない"
-      },
-
-      {
-        category: "共感・あるある",
-        text: "冷蔵庫開けた瞬間、何しに来たか忘れる。",
-        left: "わかる",
-        right: "そうでもない"
-      },
-
-      {
-        category: "意見・価値観",
-        text: "朝より夜のほうが集中できる？",
-        left: "夜",
-        right: "朝"
-      },
-
-      {
-        category: "意見・価値観",
-        text: "旅行は「計画派」と「ノープラン派」どっち？",
-        left: "ノープラン派",
-        right: "計画派"
-      },
-
-      {
-        category: "意見・価値観",
-        text: "一人の時間は必要だと思う？",
-        left: "必要",
-        right: "そこまで"
-      },
-
-      {
-        category: "意見・価値観",
-        text: "映画は「一人で観る」のと「誰かと観る」どっちが好き？",
-        left: "一人",
-        right: "誰かと"
-      },
-
-      {
-        category: "意見・価値観",
-        text: "休日は「家で過ごす」のと「外に出る」のどっちが好き？",
-        left: "家",
-        right: "外"
-      }
-
-    ];
+    localStorage.removeItem("airPeekUserPosts");
+    localStorage.removeItem("airPeekAllVotes");
+    localStorage.removeItem("airPeekMyVotes");
+    localStorage.removeItem("airPeekComments");
 
 
     /* =========================
@@ -1512,13 +1667,17 @@
 
           if (!allVotes[originalIndex]) {
 
-            allVotes[originalIndex] = {
-
-              left: 0,
-              center: 0,
-              right: 0
-
-            };
+            if (post.pollType === "gauge") {
+              allVotes[originalIndex] = {
+                sum: 0,
+                count: 0
+              };
+            } else {
+              allVotes[originalIndex] = {
+                left: 0,
+                right: 0
+              };
+            }
 
           }
 
@@ -1553,70 +1712,73 @@
                   : ""
               }
 
-              <div class="choices">
+              ${post.pollType === "gauge"
+                ? `
+                  <div class="gauge-card">
+                    <div
+                      class="gauge-result"
+                      id="gauge-result-${originalIndex}"
+                    ></div>
+                    <div class="gauge-range-wrap">
+                      <input
+                        class="gauge-range"
+                        id="gauge-${originalIndex}"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="50"
+                        aria-label="ゲージ投票"
+                        oninput="updateGaugePreview(${originalIndex}, this.value)"
+                        onpointerdown="event.stopPropagation()"
+                        ontouchstart="event.stopPropagation()"
+                        onclick="event.stopPropagation()"
+                      >
+                      <div class="gauge-labels">
+                        <span>${post.left}</span>
+                        <span>${post.right}</span>
+                      </div>
+                    </div>
+                  </div>
+                `
+                : `
+                  <div class="choices">
 
-                <div class="choice">
+                    <div class="choice">
 
-                  <div
-                    class="percentage"
-                    id="percent-${originalIndex}-left"
-                  ></div>
+                      <div
+                        class="percentage"
+                        id="percent-${originalIndex}-left"
+                      ></div>
 
-                  <button
-                    class="vote-button"
-                    aria-label="${post.left}"
-                    onclick="vote(
-                      ${originalIndex},
-                      'left'
-                    )"
-                  >
-                    <span class="vote-button-text">${post.left}</span>
-                  </button>
+                      <button
+                        class="vote-button"
+                        aria-label="${post.left}"
+                        onclick="vote(${originalIndex}, 'left')"
+                      >
+                        <span class="vote-button-text">${post.left}</span>
+                      </button>
 
-                </div>
+                    </div>
 
+                    <div class="choice">
 
-                <div class="choice">
+                      <div
+                        class="percentage"
+                        id="percent-${originalIndex}-right"
+                      ></div>
 
-                  <div
-                    class="percentage"
-                    id="percent-${originalIndex}-center"
-                  ></div>
+                      <button
+                        class="vote-button"
+                        aria-label="${post.right}"
+                        onclick="vote(${originalIndex}, 'right')"
+                      >
+                        <span class="vote-button-text">${post.right}</span>
+                      </button>
 
-                  <button
-                    class="vote-button neutral"
-                    aria-label="中立"
-                    onclick="vote(
-                      ${originalIndex},
-                      'center'
-                    )"
-                  >
-                  </button>
+                    </div>
 
-                </div>
-
-
-                <div class="choice">
-
-                  <div
-                    class="percentage"
-                    id="percent-${originalIndex}-right"
-                  ></div>
-
-                  <button
-                    class="vote-button"
-                    aria-label="${post.right}"
-                    onclick="vote(
-                      ${originalIndex},
-                      'right'
-                    )"
-                  >
-                    <span class="vote-button-text">${post.right}</span>
-                  </button>
-
-                </div>
-
-              </div>
+                  </div>
+                `}
 
               <div class="comment-area">
 
@@ -1701,6 +1863,7 @@
 
 
       setupCardScroll();
+      setupGaugeControls();
 
       updateCounter();
 
@@ -1716,34 +1879,96 @@
       choice
     ) {
 
-      if (myVotes[postIndex]) {
+      if (myVotes[postIndex] !== undefined) {
         return;
       }
 
+      const post = posts[postIndex];
+
+      if (post && post.pollType === "gauge") {
+        return;
+      }
 
       allVotes[postIndex][choice]++;
 
-
       myVotes[postIndex] =
         choice;
-
 
       localStorage.setItem(
         "airPeekAllVotes",
         JSON.stringify(allVotes)
       );
 
+      localStorage.setItem(
+        "airPeekMyVotes",
+        JSON.stringify(myVotes)
+      );
+
+      showResult(postIndex);
+
+      unlockComments(postIndex);
+    }
+
+
+    function updateGaugePreview(
+      postIndex,
+      value
+    ) {
+
+      const result =
+        document.getElementById(
+          `gauge-result-${postIndex}`
+        );
+
+      if (!result) {
+        return;
+      }
+
+      const voted = myVotes[postIndex] !== undefined;
+
+      if (voted) {
+        return;
+      }
+
+      result.textContent =
+        `${Math.round(Number(value))}%`;
+    }
+
+
+    function voteGauge(
+      postIndex,
+      value
+    ) {
+
+      if (myVotes[postIndex] !== undefined) {
+        return;
+      }
+
+      const post = posts[postIndex];
+
+      if (!post || post.pollType !== "gauge") {
+        return;
+      }
+
+      const numericValue =
+        Math.max(0, Math.min(100, Number(value)));
+
+      allVotes[postIndex].sum += numericValue;
+      allVotes[postIndex].count += 1;
+      myVotes[postIndex] = numericValue;
+
+      localStorage.setItem(
+        "airPeekAllVotes",
+        JSON.stringify(allVotes)
+      );
 
       localStorage.setItem(
         "airPeekMyVotes",
         JSON.stringify(myVotes)
       );
 
-
       showResult(postIndex);
-
       unlockComments(postIndex);
-
     }
 
 
@@ -1755,162 +1980,113 @@
       postIndex
     ) {
 
-      const votes =
-        allVotes[postIndex];
+      const post = posts[postIndex];
+      const votes = allVotes[postIndex];
 
-
-      if (!votes) {
+      if (!post || !votes) {
         return;
       }
 
+      const visibleIndex =
+        visiblePosts.findIndex(
+          item => item.originalIndex === postIndex
+        );
+
+      if (visibleIndex === -1) {
+        return;
+      }
+
+      const postElement =
+        document.querySelectorAll(".post")[visibleIndex];
+
+      if (!postElement) {
+        return;
+      }
+
+      if (post.pollType === "gauge") {
+
+        const result =
+          postElement.querySelector(
+            `#gauge-result-${postIndex}`
+          );
+
+        const range =
+          postElement.querySelector(
+            `#gauge-${postIndex}`
+          );
+
+        if (votes.count > 0 && result) {
+          const average =
+            Math.round(votes.sum / votes.count);
+
+          result.textContent =
+            `現在の平均 ${average}%`;
+        }
+
+        if (range && myVotes[postIndex] !== undefined) {
+          range.value = myVotes[postIndex];
+          range.disabled = true;
+          range.setAttribute("aria-disabled", "true");
+        }
+
+        return;
+      }
 
       const total =
         votes.left +
-        votes.center +
         votes.right;
-
 
       if (total === 0) {
         return;
       }
-
 
       const leftPercent =
         Math.round(
           (votes.left / total) * 100
         );
 
-
-      const centerPercent =
-        Math.round(
-          (votes.center / total) * 100
-        );
-
-
       const rightPercent =
-        100 -
-        leftPercent -
-        centerPercent;
-
+        100 - leftPercent;
 
       const leftElement =
         document.getElementById(
           `percent-${postIndex}-left`
         );
 
-
-      const centerElement =
-        document.getElementById(
-          `percent-${postIndex}-center`
-        );
-
-
       const rightElement =
         document.getElementById(
           `percent-${postIndex}-right`
         );
 
-
-      if (
-        !leftElement ||
-        !centerElement ||
-        !rightElement
-      ) {
-
+      if (!leftElement || !rightElement) {
         return;
-
       }
-
 
       leftElement.textContent =
         leftPercent + "%";
 
-
-      centerElement.textContent =
-        centerPercent + "%";
-
-
       rightElement.textContent =
         rightPercent + "%";
 
-
-      /*
-
-        現在表示されている投稿から
-        対象の投稿を探す
-
-      */
-
-      const visibleIndex =
-        visiblePosts.findIndex(
-          item =>
-            item.originalIndex === postIndex
-        );
-
-
-      if (visibleIndex === -1) {
-        return;
-      }
-
-
-      const postElement =
-        document.querySelectorAll(
-          ".post"
-        )[visibleIndex];
-
-
-      if (!postElement) {
-        return;
-      }
-
-
       const buttons =
-        postElement.querySelectorAll(
-          ".vote-button"
-        );
-
+        postElement.querySelectorAll(".vote-button");
 
       const myChoice =
         myVotes[postIndex];
 
-
       if (myChoice === "left") {
-
-        buttons[0]
-          .classList
-          .add("selected");
-
+        buttons[0].classList.add("selected");
       }
-
-
-      if (myChoice === "center") {
-
-        buttons[1]
-          .classList
-          .add("selected");
-
-      }
-
 
       if (myChoice === "right") {
-
-        buttons[2]
-          .classList
-          .add("selected");
-
+        buttons[1].classList.add("selected");
       }
-
 
       if (myChoice) {
-
-        buttons.forEach(
-          button => {
-            button.disabled = true;
-          }
-        );
-
+        buttons.forEach(button => {
+          button.disabled = true;
+        });
       }
-
     }
 
 
@@ -2001,7 +2177,7 @@
 
 
     function isVoted(postIndex) {
-      return !!myVotes[postIndex];
+      return myVotes[postIndex] !== undefined;
     }
 
 
@@ -2409,7 +2585,7 @@
             const deltaY =
               endY - cardTouchStartY;
 
-            const threshold = 60;
+            const threshold = 100;
             const maxScrollTop =
               Math.max(
                 0,
@@ -2515,6 +2691,9 @@
     let selectedCategory =
       "流行・話題";
 
+    let selectedPostType =
+      "choice";
+
 
     function selectCategory(
       button
@@ -2577,6 +2756,84 @@
 
       }
 
+      const postTypeArea =
+        document.getElementById("postTypeArea");
+
+      postTypeArea.classList.remove("hidden");
+
+    }
+
+
+    function selectPostType(type) {
+
+      selectedPostType = type;
+
+      const choiceButton =
+        document.getElementById("choiceTypeButton");
+
+      const gaugeButton =
+        document.getElementById("gaugeTypeButton");
+
+      const postTypeHelp =
+        document.getElementById("postTypeHelp");
+
+      const choiceTitle =
+        document.getElementById("choiceTitle");
+
+      const choiceInputs =
+        document.getElementById("choiceInputs");
+
+      const choiceCounter =
+        document.getElementById("choiceCounter");
+
+      const gaugeEndpointLabels =
+        document.getElementById("gaugeEndpointLabels");
+
+      const gaugePreview =
+        document.getElementById("gaugePreview");
+
+      const gaugePreviewLeft =
+        document.getElementById("gaugePreviewLeft");
+
+      const gaugePreviewRight =
+        document.getElementById("gaugePreviewRight");
+
+      const leftInput =
+        document.getElementById("leftChoice");
+
+      const rightInput =
+        document.getElementById("rightChoice");
+
+      choiceButton.classList.toggle("selected", type === "choice");
+      gaugeButton.classList.toggle("selected", type === "gauge");
+
+      if (type === "gauge") {
+        postTypeHelp.textContent =
+          "ゲージの両端にある状態を自由に決めます。";
+        choiceTitle.textContent = "ゲージの両端";
+        choiceInputs.classList.add("gauge-horizontal");
+        choiceInputs.classList.remove("hidden");
+        choiceCounter.classList.remove("hidden");
+        gaugeEndpointLabels.classList.remove("hidden");
+        leftInput.placeholder = "左端の言葉";
+        rightInput.placeholder = "右端の言葉";
+        gaugePreview.classList.add("show");
+        gaugePreviewLeft.textContent =
+          leftInput.value.trim() || "左端の言葉";
+        gaugePreviewRight.textContent =
+          rightInput.value.trim() || "右端の言葉";
+      } else {
+        postTypeHelp.textContent =
+          "2つの選択肢から直感で選んでもらいます。";
+        choiceTitle.textContent = "選択肢";
+        choiceInputs.classList.remove("gauge-horizontal");
+        choiceInputs.classList.remove("hidden");
+        choiceCounter.classList.remove("hidden");
+        gaugeEndpointLabels.classList.add("hidden");
+        gaugePreview.classList.remove("show");
+        leftInput.placeholder = "1つ目の選択肢";
+        rightInput.placeholder = "2つ目の選択肢";
+      }
     }
 
 
@@ -2590,6 +2847,28 @@
 
       counter.textContent =
         input.value.length;
+
+      if (selectedPostType === "gauge") {
+        const previewLeft =
+          document.getElementById("gaugePreviewLeft");
+        const previewRight =
+          document.getElementById("gaugePreviewRight");
+
+        const leftValue =
+          document.getElementById("leftChoice").value.trim();
+        const rightValue =
+          document.getElementById("rightChoice").value.trim();
+
+        if (previewLeft) {
+          previewLeft.textContent =
+            leftValue || "左端の言葉";
+        }
+
+        if (previewRight) {
+          previewRight.textContent =
+            rightValue || "右端の言葉";
+        }
+      }
 
     }
 
@@ -2770,18 +3049,21 @@
       if (!left || !right) {
 
         alert(
-          "左右の選択肢を入力してください。"
+          selectedPostType === "gauge"
+            ? "ゲージの左端と右端の言葉を入力してください。"
+            : "2つの選択肢を入力してください。"
         );
 
         return;
 
       }
 
-
-      if (left.length > 10 || right.length > 10) {
+      if (left.length > 20 || right.length > 20) {
 
         alert(
-          "選択肢は10文字以内にしてください。"
+          selectedPostType === "gauge"
+            ? "ゲージの両端の言葉は20文字以内にしてください。"
+            : "選択肢は20文字以内にしてください。"
         );
 
         return;
@@ -2793,6 +3075,9 @@
 
         category:
           selectedCategory,
+
+        pollType:
+          selectedPostType,
 
         text:
           text,
@@ -2856,16 +3141,18 @@
 
       removeSelectedImage();
 
+      selectPostType("choice");
 
+      // 投稿完了後は自動で投票画面へ戻す
       closePostScreen();
 
+      const votingFeed =
+        document.getElementById("feed");
 
-      document
-        .getElementById("feed")
-        .scrollTo({
-          top: 0,
-          behavior: "instant"
-        });
+      votingFeed.scrollTo({
+        top: 0,
+        behavior: "instant"
+      });
 
     }
 
@@ -2894,6 +3181,10 @@
     /* =========================
        最初に表示
     ========================= */
+
+    selectCategory(
+      document.querySelector(".category-button.selected")
+    );
 
     renderPosts();
 
